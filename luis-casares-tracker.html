@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Property Tracker — Luis Casares</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bay:#0f5c63; --bay-deep:#0a3f44; --sand:#f6f1e7; --sand-card:#fffdf8;
+    --ink:#1c2826; --muted:#6b746f; --line:#e3ddcf;
+    --green:#2f7d4f; --green-bg:#e3f1e6; --amber:#9a6a16; --amber-bg:#fbf0d7;
+    --red:#a33636; --red-bg:#f7e1de; --slate:#3a5566; --slate-bg:#e2ebf0;
+    --shadow:0 1px 2px rgba(18,40,38,.06),0 6px 24px rgba(18,40,38,.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--sand);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:var(--bay);text-underline-offset:2px}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+  header{background:linear-gradient(135deg,#0d6770 0%,#0a4248 100%);color:#fdfbf5;padding:24px 0 30px}
+  .header-inner{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+  .header-left{flex:1;min-width:260px}
+  .eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.8;font-weight:500}
+  h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(24px,3.5vw,34px);line-height:1.05;margin:4px 0 0}
+  .stats{display:flex;gap:22px}
+  .stat{text-align:center}
+  .stat .n{font-family:'Fraunces',serif;font-size:24px;line-height:1}
+  .stat .l{font-size:10.5px;opacity:.78;letter-spacing:.03em;margin-top:2px;white-space:nowrap}
+  .note-box{background:#fbf4e4;border:1px solid #ecdcb5;border-radius:12px;padding:14px 16px;margin:18px auto 0;font-size:13px;color:#5a4a22;line-height:1.55}
+  .note-box b{color:var(--amber)}
+  .controls{background:var(--sand-card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:14px 16px;margin:16px auto 22px;display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+  .field{display:flex;flex-direction:column;gap:4px;flex:1 1 130px;min-width:120px}
+  .field label{font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+  select,input[type=search]{font:inherit;font-size:13.5px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+  select:focus,input:focus{outline:2px solid var(--bay);outline-offset:1px}
+  .clear{font:inherit;font-size:13px;background:none;border:none;color:var(--bay);cursor:pointer;padding:8px;text-decoration:underline}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin:30px 0 16px}
+  .sec-head h2{font-family:'Fraunces',serif;font-weight:500;font-size:22px}
+  .sec-head .meta{font-size:13px;color:var(--muted)}
+  .rule{height:1px;background:var(--line);flex:1}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+  .card{background:var(--sand-card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .15s ease,box-shadow .15s ease}
+  .card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(18,40,38,.12)}
+  .thumb{height:170px;background:#dfe6e2 center/cover no-repeat;position:relative}
+  .verdict-tag{position:absolute;top:10px;left:10px;font-size:11.5px;font-weight:700;letter-spacing:.02em;padding:5px 12px;border-radius:99px;color:#fff}
+  .v-great{background:var(--green)} .v-solid{background:#3f8a5f} .v-fair{background:var(--amber)} .v-stretch{background:var(--slate)}
+  .fav-btn{position:absolute;top:10px;right:10px;background:rgba(255,253,248,.95);border:none;border-radius:99px;min-width:34px;height:34px;padding:0 10px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:var(--shadow);color:#c2456b;display:flex;align-items:center;justify-content:center;gap:4px}
+  .fav-btn.on{background:#c2456b;color:#fff}
+  .source-tag{position:absolute;bottom:10px;right:10px;background:rgba(255,253,248,.92);border-radius:99px;padding:3px 10px;font-size:10.5px;font-weight:600;color:var(--muted)}
+  .card-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+  .card h3{font-family:'Fraunces',serif;font-weight:500;font-size:18px;line-height:1.2}
+  .area{font-size:13px;color:var(--muted)}
+  .price{font-family:'Fraunces',serif;font-size:22px;font-weight:600;color:var(--bay-deep)}
+  .ppm{font-size:11.5px;color:var(--muted);margin-left:6px}
+  .facts{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;padding:8px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .facts b{font-weight:600}
+  .considerations{background:#fbf4e4;border:1px solid #ecdcb5;border-radius:9px;padding:9px 11px;font-size:12.5px;color:#5a4a22}
+  .considerations b{display:block;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--amber);margin-bottom:4px}
+  .considerations ul{margin:0 0 0 16px}
+  .considerations li{margin:2px 0}
+  .maint{font-size:12px;color:var(--muted)}
+  .card-foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:11px;border-top:1px solid var(--line)}
+  .card-foot a{font-size:13px;font-weight:600;text-decoration:none}
+  .card-foot a:hover{text-decoration:underline}
+  .updated{font-size:11.5px;color:var(--muted)}
+  footer{text-align:center;color:var(--muted);font-size:12.5px;padding:34px 20px 16px;line-height:1.7}
+  .brand-footer{max-width:640px;margin:26px auto 0;padding-top:22px;border-top:1px solid var(--line);text-align:center}
+  .brand-name{font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--bay-deep);letter-spacing:.01em}
+  .brand-tag{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.6;max-width:520px;margin-left:auto;margin-right:auto}
+  .brand-foot-small{font-size:11px;color:var(--muted);opacity:.75;margin-top:14px}
+  .empty{background:var(--sand-card);border:1px dashed var(--line);border-radius:14px;padding:38px 24px;text-align:center;color:var(--muted)}
+  @media(max-width:640px){.controls{padding:12px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-inner">
+    <div class="header-left">
+      <div class="eyebrow">Ciudad de Panamá · Cliente: Luis Casares · Asesora: Isabella Tribaldos</div>
+      <h1>Property Tracker</h1>
+    </div>
+    <div class="stats" id="stats"></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="note-box">
+    <b>Nota:</b> casas unifamiliares en Santa María, presupuesto $2,500,000. Se incluyen algunas opciones ligeramente por encima del presupuesto porque son negociables o tienen atributos que lo justifican (lote más grande, construcción a la medida). Todas verificadas activas el 14/07/2026.
+  </div>
+
+  <div class="controls">
+    <div class="field"><label>Precio</label>
+      <select id="f-price">
+        <option value="">Cualquiera</option>
+        <option value="0-2300000">Hasta $2.3M</option>
+        <option value="2300000-2500000">$2.3M–$2.5M</option>
+        <option value="2500000-2700000">$2.5M–$2.7M</option>
+      </select>
+    </div>
+    <div class="field"><label>Tamaño (m²)</label>
+      <select id="f-size"><option value="">Cualquiera</option><option value="600">600+</option><option value="700">700+</option></select>
+    </div>
+    <div class="field"><label>Parqueos</label>
+      <select id="f-parking"><option value="">Cualquiera</option><option value="3">3+</option><option value="4">4+</option></select>
+    </div>
+    <button class="clear" id="clear">Limpiar filtros</button>
+  </div>
+
+  <div class="sec-head"><h2>Propiedades</h2><span class="meta" id="count-meta"></span><div class="rule"></div></div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden><b>Sin resultados</b>Prueba ajustando los filtros.</div>
+</div>
+
+<footer>
+  Datos tomados de listados públicos (Encuentra24) verificados el 14/07/2026 · Los precios y disponibilidad pueden cambiar — verifica siempre en el link original antes de contactar.<br>
+  ❤ los favoritos se comparten con todos los que abren este link.
+
+  <div class="brand-footer">
+    <div class="brand-name">Grupo Tribaldos</div>
+    <div class="brand-tag">Este tracker es un sistema de filtrado sobre todo el inventario disponible en el mercado: revisamos, verificamos y comparamos las opciones activas para que el cliente pueda enfocarse solo en las que realmente valen la pena, en vez de buscar anuncio por anuncio.</div>
+    <div class="brand-foot-small">Preparado para Luis Casares · Asesora Isabella Tribaldos</div>
+  </div>
+</footer>
+
+<script>
+const SUPABASE_URL = "https://saqtricsftsfwxrpkewx.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhcXRyaWNzZnRzZnd4cnBrZXd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQwNDU0MTEsImV4cCI6MjA5OTYyMTQxMX0.q2qvhqrbS24qKiLNTj92eTtNYmhz_Y7gZXgjucAJkXU";
+
+// Prefijo único para este cliente para que sus favoritos no se mezclen
+// con los de otros trackers que comparten la misma tabla de Supabase.
+const CLIENT_PREFIX = "casares-";
+
+const PROPERTIES = [
+  {
+    id:CLIENT_PREFIX+"fairway-exclusiva",
+    building:"Fairway Estate — Casa de Lujo con Piscina",
+    area:"Santa María Golf & Country Club",
+    price:2150000, beds:4, baths:5, parking:2, size_m2:650,
+    maintenance:350,
+    verdict:"Great Find",
+    considerations:["La más económica de las 10, $350k por debajo del presupuesto","El anuncio la describe como 'residencia unifamiliar' — ojo: el encabezado dice 3 recámaras pero la descripción detalla 4 con walk-in closet; confirmar el número exacto con el agente","Piscina privada climatizada, gimnasio propio, pisos de mármol"],
+    thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/31/04/68/29/31046829_b70d7f",
+    listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/fairway-estate-santa-maria-se-vende-exclusiva-casa/31046829",
+    lat:null, lng:null,
+    lastVerified:"2026-07-14", source:"Encuentra24"
+  },
+  {
+    id:CLIENT_PREFIX+"fairway-9",
+    building:"Fairway Estate (9)",
+    area:"Santa María Golf & Country Club",
+    price:2300000, beds:4, baths:6, parking:6, size_m2:570,
+    maintenance:1,
+    verdict:"Great Find",
+    considerations:["Piscina privada, 6 estacionamientos, cuarto y baño de empleada","Terreno de 800 m² (más grande que el área construida)","Incluye documento técnico descargable del anuncio"],
+    thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/31/52/37/56/31523756_33bf3c",
+    listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/venta-de-casa-en-fairway-estate-santa-maria-9/31523756",
+    lat:null, lng:null,
+    lastVerified:"2026-07-14", source:"Encuentra24"
+  },
+  {
+    id:CLIENT_PREFIX+"luxury-residences-peninsula",
+    building:"Luxury Residences (Peninsula Estates)",
+    area:"Santa María Golf & Country Club",
+    price:2340000, beds:4, baths:4.5, parking:4, size_m2:640,
+    maintenance:1,
+    verdict:"Great Find",
+    considerations:["Terreno de 1,000 m², de los más amplios del grupo","Piscina, techos de doble altura, cocina italiana","Pet friendly"],
+    thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/32/35/61/23/32356123_2155c5f8954fb77886d3a754fd766e1f-ff4bdca",
+    listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/luxury-residences-santa-maria/32356123",
+    lat:null, lng:null,
+    lastVerified:"2026-07-14", source:"Encuentra24"
+  },
+  {
+    id:CLIENT_PREFIX+"saba-partners",
+    building:"Residencia de Lujo (Village Center)",
+    area:"Santa María Golf & Country Club",
+    price:2400000, beds:4, baths:4.5, parking:3, size_m2:600,
+    maintenance:null,
+    verdict:"Great Find",
+    considerations:["Precio con 8% de descuento ya aplicado (de $2,608,696 a $2,400,000) — vale la pena preguntar si hay más margen","3 habitaciones con opción de una cuarta, según la descripción — confirmar distribución exacta","Área de piscina con baño independiente, 2 cuartos de servicio"],
+    thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/32/55/62/77/32556277_4b96ed",
+    listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/casa-en-venta-santa-maria/32556277",
+    lat:null, lng:null,
+    lastVerified:"2026-07-14", source:"Encuentra24"
+  },
+  {
+    id:CLIENT_PREFIX+"fairway-modelo-m",
+    building:"Fairway Estate Modelo M",
+    area:"Santa María Golf & Country Club",
+    price:2495000, beds:4, baths:4.5, parking:2, size_m2:650,
+    maintenance:null,
+    verdict:"Great Find",
+    considerations:["Justo en el presupuesto de $2.5M","Frente al campo de golf, sin vecinos al frente, recién remodelada","Atrio estilo colonial de doble altura, 2 garajes cerrados + cochera de adoquines"],
+    thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/30/69/43/53/30694353_4c425f",
+    listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/venta-casa-fairway-estate-santa-maria/30694353",
+    lat:null, lng:null,
+    lastVerified:"2026-07-14", source:"Encuentra24"
+  },
+  {
+    id:CLIENT_PREFIX+"casa-bosco-unifamiliar",
+    building:"Casa Bosco Modelo C (Unifamiliar)",
+    area:"Bosco Di Santa María, Santa María Norte",
+    price:2500000, beds:4, baths:4.5, parking:3, size_m2:758,
+    maintenance:2,
+    verdict:"Great Find",
+    considerations:["El anuncio la describe explícitamente como 'Casa Unifamiliar' — encaja con lo pedido al pie de la letra","Justo en el presupuesto de $2.5M, la más grande del grupo (758 m²)","Solo 4 unidades disponibles en todo el residencial — inventario limitado"],
+    thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/31/89/62/27/31896227_5cb406",
+    listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/casa-unifamiliar-frente-al-golf-con-piscina-2-5m/31896227",
+    lat:null, lng:null,
+    lastVerified:"2026-07-14", source:"Encuentra24"
+  },
+  {
+    id:CLIENT_PREFIX+"viva-ya-luxury",
+    building:"Viva Ya! Luxury Residences",
+    area:"Santa María Golf & Country Club",
+    price:2500000, beds:5, baths:6, parking:4, size_m2:639,
+    maintenance:350,
+    verdict:"Solid Option",
+    considerations:["5 recámaras en vez de las 4 típicas del grupo — una en planta baja","Marcado 'Solo Clientes Directos' — puede significar menos flexibilidad para el asesor en la negociación de comisión","Pisos de mármol, cocina italiana, línea blanca incluida"],
+    thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/32/57/40/27/32574027_7059102981e7d49c3c475d599d58d94a-b4a1e52",
+    listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/viva-ya-en-santa-maria-venta-luxury-residences-con-linea-blanca-esm/32574027",
+    lat:null, lng:null,
+    lastVerified:"2026-07-14", source:"Encuentra24"
+  },
+  {
+    id:CLIENT_PREFIX+"vista-al-golf-1203",
+    building:"Vista al Golf — Lote 1,203 m²",
+    area:"Santa María Golf & Country Club",
+    price:2550000, beds:4, baths:4.5, parking:4, size_m2:600,
+    maintenance:null,
+    verdict:"Solid Option",
+    considerations:["$50k por encima del presupuesto, pero el terreno (1,203 m²) es el más grande de todo el grupo por mucho margen","El interior se puede personalizar según el comprador","Precio por m² de terreno el más bajo del grupo — buena opción si se valora el espacio exterior sobre el tamaño de la casa"],
+    thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/32/45/51/63/32455163_e6e27b7153300cd471a5ce15ca19afb5-107d79e",
+    listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/santa-maria-vista-al-golf-lote-1-203mts2-2-550-000/32455163",
+    lat:null, lng:null,
+    lastVerified:"2026-07-14", source:"Encuentra24"
+  },
+  {
+    id:CLIENT_PREFIX+"fairway-estates-743",
+    building:"Fairway Estates",
+    area:"Santa María Golf & Country Club",
+    price:2600000, beds:4, baths:4.5, parking:6, size_m2:743,
+    maintenance:1,
+    verdict:"Solid Option",
+    considerations:["$100k por encima del presupuesto, pero es la casa más grande dentro del rango de Fairway Estates (743 m²)","Recién remodelada, piscina, 6 estacionamientos (3 techados)","Vale la pena preguntar si el vendedor negocia para bajarla al presupuesto"],
+    thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/32/19/76/70/32197670_e2d9639",
+    listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/fairway-estates-santa-maria/32197670",
+    lat:null, lng:null,
+    lastVerified:"2026-07-14", source:"Encuentra24"
+  },
+  {
+    id:CLIENT_PREFIX+"peninsula-estates",
+    building:"Peninsula Estates (a estrenar, a la medida)",
+    area:"Santa María, sector Peninsula",
+    price:2605000, beds:4, baths:4.5, parking:4, size_m2:640,
+    maintenance:400,
+    verdict:"Stretch",
+    considerations:["$105k por encima del presupuesto — pero el vendedor ofrece adecuaciones arquitectónicas y de acabados a la medida, lo que deja margen para negociar precio final","Construcción nueva a estrenar, entrega en 18 meses (no es para mudanza inmediata)","Terreno de 1,000 m²; solo queda 1 unidad disponible"],
+    thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/31/16/98/96/31169896_d77704",
+    listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/casa-a-estrenar-peninsula-estates-640m2-2-405-000/31169896",
+    lat:null, lng:null,
+    lastVerified:"2026-07-14", source:"Encuentra24"
+  }
+];
+
+const LS_VOTER_KEY = "ptracker_voter_id";
+let voterId = null;
+try{
+  voterId = localStorage.getItem(LS_VOTER_KEY);
+  if(!voterId){ voterId = "v-"+Math.random().toString(36).slice(2,10); localStorage.setItem(LS_VOTER_KEY, voterId); }
+}catch(e){ voterId = "v-"+Math.random().toString(36).slice(2,10); }
+
+let voteCounts = {};
+let myVotes = {};
+
+async function sbFetch(path, opts={}){
+  return fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    ...opts,
+    headers:{
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`,
+      "Content-Type": "application/json",
+      Prefer: "return=minimal",
+      ...(opts.headers||{})
+    }
+  });
+}
+
+async function loadFavorites(){
+  if(!(SUPABASE_URL && SUPABASE_KEY)) return;
+  try{
+    const res = await sbFetch(`favorites?select=property_id,voter&property_id=like.${encodeURIComponent(CLIENT_PREFIX)}*`);
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    const rows = await res.json();
+    voteCounts = {}; myVotes = {};
+    rows.forEach(r=>{
+      voteCounts[r.property_id] = (voteCounts[r.property_id]||0)+1;
+      if(r.voter === voterId) myVotes[r.property_id] = true;
+    });
+  }catch(e){ console.warn("No se pudieron cargar los favoritos compartidos:", e); }
+}
+
+async function toggleFav(id){
+  const wasFav = !!myVotes[id];
+  if(wasFav){
+    delete myVotes[id];
+    voteCounts[id] = Math.max(0, (voteCounts[id]||1) - 1);
+  } else {
+    myVotes[id] = true;
+    voteCounts[id] = (voteCounts[id]||0) + 1;
+  }
+  render();
+  try{
+    if(wasFav){
+      await sbFetch(`favorites?property_id=eq.${encodeURIComponent(id)}&voter=eq.${encodeURIComponent(voterId)}`, { method:"DELETE" });
+    } else {
+      await sbFetch("favorites", { method:"POST", body: JSON.stringify({ property_id:id, voter:voterId }) });
+    }
+  }catch(e){ console.warn("No se pudo guardar el favorito en la nube:", e); }
+}
+
+const verdictClass = { "Great Find":"v-great", "Solid Option":"v-solid", "Fair":"v-fair", "Stretch":"v-stretch" };
+function fmtMoney(n){ return "$"+n.toLocaleString("en-US"); }
+
+function cardHtml(p){
+  const ppm = Math.round(p.price / p.size_m2);
+  const isFav = !!myVotes[p.id];
+  const count = voteCounts[p.id] || 0;
+  const mapLink = `https://www.google.com/maps/search/${encodeURIComponent(p.building+" "+p.area+" Panama")}`;
+  return `
+  <div class="card">
+    <div class="thumb" style="background-image:url('${p.thumbnail}')">
+      <span class="verdict-tag ${verdictClass[p.verdict]||''}">${p.verdict}</span>
+      <button class="fav-btn ${isFav?'on':''}" onclick="toggleFav('${p.id}')" title="Marcar como favorito">${isFav?'♥':'♡'}${count?` ${count}`:''}</button>
+      <span class="source-tag">${p.source}</span>
+    </div>
+    <div class="card-body">
+      <h3>${p.building}</h3>
+      <div class="area">${p.area} · <a href="${mapLink}" target="_blank" rel="noopener">ver mapa</a></div>
+      <div class="price">${fmtMoney(p.price)}<span class="ppm">$${ppm.toLocaleString("en-US")}/m²</span></div>
+      <div class="facts">
+        <span><b>${p.beds}</b> hab</span>
+        <span><b>${p.baths}</b> baños</span>
+        <span><b>${p.parking ?? 'Consultar'}</b> parqueos</span>
+        <span><b>${p.size_m2}</b> m²</span>
+      </div>
+      ${p.considerations && p.considerations.length ? `
+      <div class="considerations">
+        <b>A tener en cuenta</b>
+        <ul>${p.considerations.map(c=>`<li>${c}</li>`).join("")}</ul>
+      </div>` : ""}
+      ${p.maintenance ? `<div class="maint">Mantenimiento: $${p.maintenance}/mes</div>` : ""}
+      <div class="card-foot">
+        <a href="${p.listingUrl}" target="_blank" rel="noopener">Ver anuncio original ↗</a>
+        <span class="updated">verificado ${p.lastVerified}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function currentFilters(){
+  return {
+    price: document.getElementById("f-price").value,
+    size: document.getElementById("f-size").value,
+    parking: document.getElementById("f-parking").value
+  };
+}
+
+function render(){
+  const f = currentFilters();
+  let list = PROPERTIES.filter(p=>{
+    if(f.price){
+      const [lo,hi] = f.price.split("-").map(Number);
+      if(p.price<lo || p.price>hi) return false;
+    }
+    if(f.size && p.size_m2 < Number(f.size)) return false;
+    if(f.parking && (p.parking||0) < Number(f.parking)) return false;
+    return true;
+  });
+  list.sort((a,b)=> a.price - b.price);
+
+  const grid = document.getElementById("grid");
+  const empty = document.getElementById("empty");
+  grid.innerHTML = list.map(cardHtml).join("");
+  empty.hidden = list.length>0;
+  document.getElementById("count-meta").textContent = `${list.length} de ${PROPERTIES.length} propiedades`;
+
+  const favCount = Object.values(voteCounts).filter(c=>c>0).length;
+  document.getElementById("stats").innerHTML = `
+    <div class="stat"><div class="n">${PROPERTIES.length}</div><div class="l">PROPIEDADES</div></div>
+    <div class="stat"><div class="n">${favCount}</div><div class="l">❤ CON FAVORITOS</div></div>
+  `;
+}
+
+document.querySelectorAll("#f-price,#f-size,#f-parking").forEach(el=>el.addEventListener("change", render));
+document.getElementById("clear").addEventListener("click", ()=>{
+  document.getElementById("f-price").value="";
+  document.getElementById("f-size").value="";
+  document.getElementById("f-parking").value="";
+  render();
+});
+
+(async function init(){
+  await loadFavorites();
+  render();
+})();
+</script>
+</body>
+</html>
