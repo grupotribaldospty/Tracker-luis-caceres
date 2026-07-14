@@ -9,17 +9,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bay:#0f5c63; --bay-deep:#0a3f44; --sand:#f6f1e7; --sand-card:#fffdf8;
-    --ink:#1c2826; --muted:#6b746f; --line:#e3ddcf;
+    --bay:#1b3a5c; --bay-deep:#0d1f33; --sand:#f2f4f7; --sand-card:#ffffff;
+    --ink:#1a2430; --muted:#6b7686; --line:#dde2e9;
     --green:#2f7d4f; --green-bg:#e3f1e6; --amber:#9a6a16; --amber-bg:#fbf0d7;
     --red:#a33636; --red-bg:#f7e1de; --slate:#3a5566; --slate-bg:#e2ebf0;
-    --shadow:0 1px 2px rgba(18,40,38,.06),0 6px 24px rgba(18,40,38,.06);
+    --shadow:0 1px 2px rgba(13,31,51,.06),0 6px 24px rgba(13,31,51,.08);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Inter',system-ui,sans-serif;background:var(--sand);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
   a{color:var(--bay);text-underline-offset:2px}
   .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
-  header{background:linear-gradient(135deg,#0d6770 0%,#0a4248 100%);color:#fdfbf5;padding:24px 0 30px}
+  header{background:linear-gradient(135deg,#20477a 0%,#0d1f33 100%);color:#fdfbf5;padding:20px 0 30px}
+  .header-brand{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .header-brand img{height:34px;width:auto;background:#fff;border-radius:6px;padding:4px 8px}
   .header-inner{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
   .header-left{flex:1;min-width:260px}
   .eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.8;font-weight:500}
@@ -30,12 +32,14 @@
   .stat .l{font-size:10.5px;opacity:.78;letter-spacing:.03em;margin-top:2px;white-space:nowrap}
   .note-box{background:#fbf4e4;border:1px solid #ecdcb5;border-radius:12px;padding:14px 16px;margin:18px auto 0;font-size:13px;color:#5a4a22;line-height:1.55}
   .note-box b{color:var(--amber)}
-  .controls{background:var(--sand-card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:14px 16px;margin:16px auto 22px;display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
-  .field{display:flex;flex-direction:column;gap:4px;flex:1 1 130px;min-width:120px}
+  .controls{background:var(--sand-card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:16px;margin:16px auto 22px}
+  .controls-row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+  .controls-row + .controls-row{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+  .field{display:flex;flex-direction:column;gap:4px;flex:1 1 150px;min-width:130px}
   .field label{font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
   select,input[type=search]{font:inherit;font-size:13.5px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
   select:focus,input:focus{outline:2px solid var(--bay);outline-offset:1px}
-  .clear{font:inherit;font-size:13px;background:none;border:none;color:var(--bay);cursor:pointer;padding:8px;text-decoration:underline}
+  .clear{font:inherit;font-size:13px;background:none;border:none;color:var(--bay);cursor:pointer;padding:8px;text-decoration:underline;white-space:nowrap}
   .sec-head{display:flex;align-items:baseline;gap:12px;margin:30px 0 16px}
   .sec-head h2{font-family:'Fraunces',serif;font-weight:500;font-size:22px}
   .sec-head .meta{font-size:13px;color:var(--muted)}
@@ -45,7 +49,7 @@
   .card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(18,40,38,.12)}
   .thumb{height:170px;background:#dfe6e2 center/cover no-repeat;position:relative}
   .verdict-tag{position:absolute;top:10px;left:10px;font-size:11.5px;font-weight:700;letter-spacing:.02em;padding:5px 12px;border-radius:99px;color:#fff}
-  .v-great{background:var(--green)} .v-solid{background:#3f8a5f} .v-fair{background:var(--amber)} .v-stretch{background:var(--slate)}
+  .v-great{background:var(--green)} .v-solid{background:var(--bay)} .v-fair{background:var(--amber)} .v-stretch{background:var(--slate)}
   .fav-btn{position:absolute;top:10px;right:10px;background:rgba(255,253,248,.95);border:none;border-radius:99px;min-width:34px;height:34px;padding:0 10px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:var(--shadow);color:#c2456b;display:flex;align-items:center;justify-content:center;gap:4px}
   .fav-btn.on{background:#c2456b;color:#fff}
   .source-tag{position:absolute;bottom:10px;right:10px;background:rgba(255,253,248,.92);border-radius:99px;padding:3px 10px;font-size:10.5px;font-weight:600;color:var(--muted)}
@@ -56,14 +60,17 @@
   .ppm{font-size:11.5px;color:var(--muted);margin-left:6px}
   .facts{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;padding:8px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
   .facts b{font-weight:600}
+  .desc{font-size:12.5px;color:var(--ink);line-height:1.55}
+  .desc.clamped{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .desc-toggle{font:inherit;font-size:12px;font-weight:600;background:none;border:none;color:var(--bay);cursor:pointer;padding:0;text-align:left}
   .considerations{background:#fbf4e4;border:1px solid #ecdcb5;border-radius:9px;padding:9px 11px;font-size:12.5px;color:#5a4a22}
   .considerations b{display:block;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--amber);margin-bottom:4px}
   .considerations ul{margin:0 0 0 16px}
   .considerations li{margin:2px 0}
   .maint{font-size:12px;color:var(--muted)}
+  .agent-badge{font-size:11.5px;color:var(--bay-deep);font-weight:600;background:var(--sand);border-radius:7px;padding:5px 9px;display:inline-block}
   .card-foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:11px;border-top:1px solid var(--line)}
-  .card-foot a{font-size:13px;font-weight:600;text-decoration:none}
-  .card-foot a:hover{text-decoration:underline}
+  .ref-badge{font-size:12px;font-weight:600;color:var(--muted)!important;background:var(--sand);border:1px solid var(--line);border-radius:7px;padding:5px 10px;text-decoration:none!important}
   .updated{font-size:11.5px;color:var(--muted)}
   footer{text-align:center;color:var(--muted);font-size:12.5px;padding:34px 20px 16px;line-height:1.7}
   .brand-footer{max-width:640px;margin:26px auto 0;padding-top:22px;border-top:1px solid var(--line);text-align:center}
@@ -77,36 +84,72 @@
 <body>
 
 <header>
-  <div class="wrap header-inner">
-    <div class="header-left">
-      <div class="eyebrow">Ciudad de Panamá · Cliente: Luis Casares · Asesora: Isabella Tribaldos</div>
-      <h1>Property Tracker</h1>
+  <div class="wrap">
+    <div class="header-brand">
+      <img src="https://media.grupotribaldos.com/logo-tribaldos-127x58px-2.png" alt="Grupo Tribaldos" onerror="this.style.display='none'">
     </div>
-    <div class="stats" id="stats"></div>
+    <div class="header-inner">
+      <div class="header-left">
+        <div class="eyebrow">Ciudad de Panamá · Cliente: Luis Casares · Asesora: Isabella Tribaldos</div>
+        <h1>Property Tracker</h1>
+      </div>
+      <div class="stats" id="stats"></div>
+    </div>
   </div>
 </header>
 
 <div class="wrap">
   <div class="note-box">
-    <b>Nota:</b> casas unifamiliares en Santa María, presupuesto $2,500,000. Se incluyen algunas opciones ligeramente por encima del presupuesto porque son negociables o tienen atributos que lo justifican (lote más grande, construcción a la medida). Todas verificadas activas el 14/07/2026.
+    <b>Nota:</b> casas unifamiliares en Santa María, presupuesto $2,500,000. Se incluyen algunas opciones ligeramente por encima del presupuesto porque son negociables o tienen atributos que lo justifican (lote más grande, construcción a la medida). Incluye todo el inventario activo publicado en los portales inmobiliarios. Todas verificadas activas al 14/07/2026.
   </div>
 
   <div class="controls">
-    <div class="field"><label>Precio</label>
-      <select id="f-price">
-        <option value="">Cualquiera</option>
-        <option value="0-2300000">Hasta $2.3M</option>
-        <option value="2300000-2500000">$2.3M–$2.5M</option>
-        <option value="2500000-2700000">$2.5M–$2.7M</option>
-      </select>
+    <div class="controls-row">
+      <div class="field"><label>Buscar</label>
+        <input type="search" id="f-search" placeholder="Casa, zona...">
+      </div>
+      <div class="field"><label>Zona</label>
+        <select id="f-area"><option value="">Todas</option></select>
+      </div>
+      <div class="field"><label>Precio</label>
+        <select id="f-price">
+          <option value="">Cualquiera</option>
+          <option value="0-2000000">Hasta $2M</option>
+          <option value="2000000-2300000">$2M–$2.3M</option>
+          <option value="2300000-2500000">$2.3M–$2.5M</option>
+          <option value="2500000-2700000">$2.5M–$2.7M</option>
+          <option value="2700000-3000000">$2.7M–$3M</option>
+        </select>
+      </div>
+      <div class="field"><label>Recámaras</label>
+        <select id="f-beds"><option value="">Cualquiera</option><option value="3">3+</option><option value="4">4+</option><option value="5">5</option></select>
+      </div>
+      <div class="field"><label>Veredicto</label>
+        <select id="f-verdict">
+          <option value="">Cualquiera</option>
+          <option value="Great Find">Great Find</option>
+          <option value="Solid Option">Solid Option</option>
+          <option value="Stretch">Stretch</option>
+        </select>
+      </div>
+      <div class="field"><label>Casa</label>
+        <select id="f-building"><option value="">Cualquiera</option></select>
+      </div>
     </div>
-    <div class="field"><label>Tamaño (m²)</label>
-      <select id="f-size"><option value="">Cualquiera</option><option value="600">600+</option><option value="700">700+</option></select>
+    <div class="controls-row">
+      <div class="field"><label>Mostrar</label>
+        <select id="f-show"><option value="all">Todo</option><option value="loved">Solo con favoritos</option></select>
+      </div>
+      <div class="field"><label>Ordenar por</label>
+        <select id="f-sort">
+          <option value="price-asc">Precio (menor a mayor)</option>
+          <option value="price-desc">Precio (mayor a menor)</option>
+          <option value="size-desc">Tamaño (mayor a menor)</option>
+          <option value="name-asc">Nombre (A-Z)</option>
+        </select>
+      </div>
+      <button class="clear" id="clear">Limpiar filtros</button>
     </div>
-    <div class="field"><label>Parqueos</label>
-      <select id="f-parking"><option value="">Cualquiera</option><option value="3">3+</option><option value="4">4+</option></select>
-    </div>
-    <button class="clear" id="clear">Limpiar filtros</button>
   </div>
 
   <div class="sec-head"><h2>Propiedades</h2><span class="meta" id="count-meta"></span><div class="rule"></div></div>
@@ -115,7 +158,7 @@
 </div>
 
 <footer>
-  Datos tomados de listados públicos (Encuentra24) verificados el 14/07/2026 · Los precios y disponibilidad pueden cambiar — verifica siempre en el link original antes de contactar.<br>
+  Datos tomados de listados públicos activos en los portales inmobiliarios, verificados el 14/07/2026 · Los precios y disponibilidad pueden cambiar — verifica siempre en el link original antes de contactar.<br>
   ❤ los favoritos se comparten con todos los que abren este link.
 
   <div class="brand-footer">
@@ -141,11 +184,12 @@ const PROPERTIES = [
     price:2150000, beds:4, baths:5, parking:2, size_m2:650,
     maintenance:350,
     verdict:"Great Find",
-    considerations:["La más económica de las 13, $350k por debajo del presupuesto","El anuncio la describe como 'residencia unifamiliar' — ojo: el encabezado dice 3 recámaras pero la descripción detalla 4 con walk-in closet; confirmar el número exacto con el agente","Piscina privada climatizada, gimnasio propio, pisos de mármol"],
+    description:"Residencia unifamiliar remodelada en Santa María Golf & Country Club. Terreno de 895 m² y 650 m² de construcción. 4 recámaras con walk-in closet, 5 baños completos más baño de visitas, den familiar, piscina privada climatizada, gimnasio propio y 2 estacionamientos techados. Pisos de mármol y cocina equipada con línea blanca completa.",
+    considerations:["650 m² construidos sobre terreno de 895 m² — $3,308/m² es de los más bajos del set (rango: 562-850 m²)","Remodelada; el anuncio no especifica año de construcción original","2 estacionamientos techados, 5 baños completos + baño de visitas"],
     thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/31/04/68/29/31046829_b70d7f",
     listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/fairway-estate-santa-maria-se-vende-exclusiva-casa/31046829",
-    lat:null, lng:null,
-    lastVerified:"2026-07-14", source:"Encuentra24"
+    source:"Encuentra24",
+    lastVerified:"2026-07-14"
   },
   {
     id:CLIENT_PREFIX+"fairway-9",
@@ -154,11 +198,27 @@ const PROPERTIES = [
     price:2300000, beds:4, baths:6, parking:6, size_m2:570,
     maintenance:1,
     verdict:"Great Find",
-    considerations:["Piscina privada, 6 estacionamientos, cuarto y baño de empleada","Terreno de 800 m² (más grande que el área construida)","Incluye documento técnico descargable del anuncio"],
+    description:"Casa en Fairway Estate con terreno de 800 m² y 570 m² de construcción. 4 recámaras, 6 baños completos, cuarto y baño de empleada, piscina privada y 6 estacionamientos. Incluye documento técnico descargable en el anuncio original para revisar planos antes de la visita.",
+    considerations:["570 m² construidos sobre terreno de 800 m² — la construcción más pequeña del grupo, $4,035/m²","Cuarto y baño de empleada incluido; el anuncio no especifica año de construcción","6 estacionamientos y 6 baños completos"],
     thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/31/52/37/56/31523756_33bf3c",
     listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/venta-de-casa-en-fairway-estate-santa-maria-9/31523756",
-    lat:null, lng:null,
-    lastVerified:"2026-07-14", source:"Encuentra24"
+    source:"Encuentra24",
+    lastVerified:"2026-07-14"
+  },
+  {
+    id:CLIENT_PREFIX+"casa-santa-maria-1995",
+    building:"Casa en Santa María — Fairway Estates",
+    area:"Santa María, Fairway Estates",
+    price:1995000, beds:4, baths:4, parking:4, size_m2:562,
+    maintenance:350,
+    verdict:"Great Find",
+    description:"Casa en Fairway Estates, Santa María, publicada directamente por Isabella Tribaldos. Terreno de 900 m² y 562 m² de construcción, 4 recámaras y 4 baños, 4 estacionamientos. La descripción original del anuncio es breve: 'la casa está muy bien cuidada, cuenta con sus 4 recámaras y está muy bien ubicada'.",
+    considerations:["562 m² construidos sobre terreno de 900 m² — la construcción más pequeña de las 16, $3,550/m²","La descripción del anuncio no detalla año de construcción ni remodelaciones","4 estacionamientos, 4 baños completos"],
+    thumbnail:"https://media.grupotribaldos.com/properties/5c860a0a-dbd7-802f-3a2c-620ca49877ea-isre-listing-image-600x400.jpg",
+    listingUrl:"https://grupotribaldos.com/propiedad/santa-maria-fairway-estates",
+    source:"Grupo Tribaldos",
+    agent:"Isabella Tribaldos",
+    lastVerified:"2026-07-14"
   },
   {
     id:CLIENT_PREFIX+"luxury-residences-peninsula",
@@ -167,11 +227,12 @@ const PROPERTIES = [
     price:2340000, beds:4, baths:4.5, parking:4, size_m2:640,
     maintenance:1,
     verdict:"Great Find",
-    considerations:["Terreno de 1,000 m², de los más amplios del grupo","Piscina, techos de doble altura, cocina italiana","Pet friendly"],
+    description:"Casa en Peninsula Estates con terreno de 1,000 m², de los más grandes del grupo. 4 recámaras, 4.5 baños, 4 estacionamientos, techos de doble altura, cocina italiana y piscina. Pet friendly. El anuncio no especifica año de construcción ni cuota de mantenimiento.",
+    considerations:["640 m² construidos sobre terreno de 1,000 m² — el segundo terreno más grande del grupo, $3,656/m²","El anuncio no especifica año de construcción ni cuota de mantenimiento","4 estacionamientos, 4.5 baños"],
     thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/32/35/61/23/32356123_2155c5f8954fb77886d3a754fd766e1f-ff4bdca",
     listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/luxury-residences-santa-maria/32356123",
-    lat:null, lng:null,
-    lastVerified:"2026-07-14", source:"Encuentra24"
+    source:"Encuentra24",
+    lastVerified:"2026-07-14"
   },
   {
     id:CLIENT_PREFIX+"saba-partners",
@@ -180,11 +241,12 @@ const PROPERTIES = [
     price:2400000, beds:4, baths:4.5, parking:3, size_m2:600,
     maintenance:null,
     verdict:"Great Find",
-    considerations:["Precio con 8% de descuento ya aplicado (de $2,608,696 a $2,400,000) — vale la pena preguntar si hay más margen","3 habitaciones con opción de una cuarta, según la descripción — confirmar distribución exacta","Área de piscina con baño independiente, 2 cuartos de servicio"],
+    description:"Residencia en Village Center, Santa María. 600 m² de construcción, 4 recámaras (3 confirmadas más opción de una cuarta), 4.5 baños, 3 estacionamientos. Precio ya rebajado 8% respecto al valor original de lista ($2,608,696 a $2,400,000). Incluye área de piscina con baño independiente y 2 cuartos de servicio.",
+    considerations:["600 m² construidos — $4,000/m² antes del 8% de descuento ya aplicado (precio original $2,608,696)","Recámaras: 3 confirmadas + opción de una cuarta, según el anuncio","3 estacionamientos, 4.5 baños, 2 cuartos de servicio"],
     thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/32/55/62/77/32556277_4b96ed",
     listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/casa-en-venta-santa-maria/32556277",
-    lat:null, lng:null,
-    lastVerified:"2026-07-14", source:"Encuentra24"
+    source:"Encuentra24",
+    lastVerified:"2026-07-14"
   },
   {
     id:CLIENT_PREFIX+"fairway-unifamiliar-32601696",
@@ -193,11 +255,12 @@ const PROPERTIES = [
     price:2480000, beds:4, baths:5, parking:3, size_m2:571,
     maintenance:350,
     verdict:"Great Find",
-    considerations:["Publicada por Grupo Tribaldos — mismo grupo del asesor, facilita la coordinación de la visita y la negociación","Terreno de 909 m², den, gimnasio privado, ventanales acústicos, doble altura","Actualizada el mismo día de esta revisión (14/07/2026) — la más reciente del grupo"],
+    description:"Casa unifamiliar en Fairway Estates, publicada por Grupo Tribaldos. Terreno de 909 m², 571 m² de construcción, 4 recámaras, 5 baños, den, gimnasio privado y ventanales acústicos. Doble altura en la sala principal. También publicada en el sitio propio de Grupo Tribaldos.",
+    considerations:["571 m² construidos sobre terreno de 909 m² — $4,343/m² es el más alto de las 16","El anuncio no especifica año de construcción","3 estacionamientos, 5 baños completos"],
     thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/32/60/16/96/32601696_16db66",
     listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/venta-de-casa-unifamiliar-en-santa-maria-fairway-estates/32601696",
-    lat:null, lng:null,
-    lastVerified:"2026-07-14", source:"Encuentra24"
+    source:"Grupo Tribaldos",
+    lastVerified:"2026-07-14"
   },
   {
     id:CLIENT_PREFIX+"fairway-modelo-m",
@@ -206,11 +269,12 @@ const PROPERTIES = [
     price:2495000, beds:4, baths:4.5, parking:2, size_m2:650,
     maintenance:null,
     verdict:"Great Find",
-    considerations:["Justo en el presupuesto de $2.5M","Frente al campo de golf, sin vecinos al frente, recién remodelada","Atrio estilo colonial de doble altura, 2 garajes cerrados + cochera de adoquines"],
+    description:"Fairway Estate Modelo M, justo en el presupuesto de $2.5M. Casa recién remodelada, sin vecinos al frente, con atrio estilo colonial de doble altura. 4 recámaras, 4.5 baños, 2 garajes cerrados más cochera de adoquines. Frente al campo de golf.",
+    considerations:["650 m² construidos — $3,838/m², ligeramente por encima del promedio del grupo ($3,671/m²)","Recién remodelada; el anuncio no especifica año de construcción original","2 estacionamientos techados — menos que la mayoría del set (4-8)"],
     thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/30/69/43/53/30694353_4c425f",
     listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/venta-casa-fairway-estate-santa-maria/30694353",
-    lat:null, lng:null,
-    lastVerified:"2026-07-14", source:"Encuentra24"
+    source:"Encuentra24",
+    lastVerified:"2026-07-14"
   },
   {
     id:CLIENT_PREFIX+"casa-bosco-unifamiliar",
@@ -219,50 +283,12 @@ const PROPERTIES = [
     price:2500000, beds:4, baths:4.5, parking:3, size_m2:758,
     maintenance:2,
     verdict:"Great Find",
-    considerations:["El anuncio la describe explícitamente como 'Casa Unifamiliar' — encaja con lo pedido al pie de la letra","Justo en el presupuesto de $2.5M, la más grande del grupo (758 m²)","Solo 4 unidades disponibles en todo el residencial — inventario limitado"],
+    description:"Casa Bosco Modelo C, descrita explícitamente como 'unifamiliar' en el anuncio. 758 m² de construcción, la más grande del grupo. 4 recámaras, 4.5 baños, 3 estacionamientos. Solo existen 4 unidades disponibles en todo el residencial Bosco Di Santa María.",
+    considerations:["758 m² construidos — la construcción más grande del grupo, $3,299/m² de los más bajos","Ubicada en Bosco Di Santa María, sub-desarrollo distinto al núcleo de Fairway; solo 4 unidades disponibles","3 estacionamientos, 4.5 baños"],
     thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/31/89/62/27/31896227_5cb406",
     listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/casa-unifamiliar-frente-al-golf-con-piscina-2-5m/31896227",
-    lat:null, lng:null,
-    lastVerified:"2026-07-14", source:"Encuentra24"
-  },
-  {
-    id:CLIENT_PREFIX+"viva-ya-luxury",
-    building:"Viva Ya! Luxury Residences",
-    area:"Santa María Golf & Country Club",
-    price:2500000, beds:5, baths:6, parking:4, size_m2:639,
-    maintenance:350,
-    verdict:"Solid Option",
-    considerations:["5 recámaras en vez de las 4 típicas del grupo — una en planta baja","Marcado 'Solo Clientes Directos' — puede significar menos flexibilidad para el asesor en la negociación de comisión","Pisos de mármol, cocina italiana, línea blanca incluida"],
-    thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/32/57/40/27/32574027_7059102981e7d49c3c475d599d58d94a-b4a1e52",
-    listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/viva-ya-en-santa-maria-venta-luxury-residences-con-linea-blanca-esm/32574027",
-    lat:null, lng:null,
-    lastVerified:"2026-07-14", source:"Encuentra24"
-  },
-  {
-    id:CLIENT_PREFIX+"vista-al-golf-1203",
-    building:"Vista al Golf — Lote 1,203 m²",
-    area:"Santa María Golf & Country Club",
-    price:2550000, beds:4, baths:4.5, parking:4, size_m2:600,
-    maintenance:null,
-    verdict:"Solid Option",
-    considerations:["$50k por encima del presupuesto, pero el terreno (1,203 m²) es el más grande de todo el grupo por mucho margen","El interior se puede personalizar según el comprador","Precio por m² de terreno el más bajo del grupo — buena opción si se valora el espacio exterior sobre el tamaño de la casa"],
-    thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/32/45/51/63/32455163_e6e27b7153300cd471a5ce15ca19afb5-107d79e",
-    listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/santa-maria-vista-al-golf-lote-1-203mts2-2-550-000/32455163",
-    lat:null, lng:null,
-    lastVerified:"2026-07-14", source:"Encuentra24"
-  },
-  {
-    id:CLIENT_PREFIX+"fairway-estates-743",
-    building:"Fairway Estates",
-    area:"Santa María Golf & Country Club",
-    price:2600000, beds:4, baths:4.5, parking:6, size_m2:743,
-    maintenance:1,
-    verdict:"Solid Option",
-    considerations:["$100k por encima del presupuesto, pero es la casa más grande dentro del rango de Fairway Estates (743 m²)","Recién remodelada, piscina, 6 estacionamientos (3 techados)","Vale la pena preguntar si el vendedor negocia para bajarla al presupuesto"],
-    thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/32/19/76/70/32197670_e2d9639",
-    listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/fairway-estates-santa-maria/32197670",
-    lat:null, lng:null,
-    lastVerified:"2026-07-14", source:"Encuentra24"
+    source:"Encuentra24",
+    lastVerified:"2026-07-14"
   },
   {
     id:CLIENT_PREFIX+"fairway-kavos-2500",
@@ -271,11 +297,26 @@ const PROPERTIES = [
     price:2500000, beds:4, baths:5, parking:6, size_m2:650,
     maintenance:null,
     verdict:"Great Find",
-    considerations:["Publicada y actualizada esta semana (14/07/2026) — la más reciente del grupo junto con la de Fairway unifamiliar","Justo en el presupuesto, 800 m² de terreno, 6 estacionamientos cubiertos","Piscina con jacuzzi climatizado y área de playa, recámara principal con balcón privado"],
+    description:"Casa en Fairway Estates publicada por Kavos Real Estate, actualizada esta semana (14/07/2026). Terreno de 800 m², 650 m² de construcción, 4 recámaras, 5 baños, 6 estacionamientos techados. Piscina con jacuzzi climatizado y área de playa, recámara principal con balcón privado.",
+    considerations:["650 m² construidos sobre terreno de 800 m² — $3,846/m², cerca del promedio del grupo","Anuncio actualizado el 14/07/2026; no especifica año de construcción","6 estacionamientos techados, 5 baños completos"],
     thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/32/52/76/29/32527629_81a05c",
     listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/casa-en-venta-en-fairway-estates-santa-maria/32527629",
-    lat:null, lng:null,
-    lastVerified:"2026-07-14", source:"Encuentra24"
+    source:"Encuentra24",
+    lastVerified:"2026-07-14"
+  },
+  {
+    id:CLIENT_PREFIX+"viva-ya-luxury",
+    building:"Viva Ya! Luxury Residences",
+    area:"Santa María Golf & Country Club",
+    price:2500000, beds:5, baths:6, parking:4, size_m2:639,
+    maintenance:350,
+    verdict:"Solid Option",
+    description:"Viva Ya! Luxury Residences, Santa María. 639 m², 5 recámaras (una en planta baja), 6 baños, 4 estacionamientos. Pisos de mármol, cocina italiana, línea blanca incluida. Marcado 'Solo Clientes Directos' en el anuncio original.",
+    considerations:["639 m² construidos — $3,912/m², repartido entre 5 recámaras en vez de las 4 típicas del grupo","Marcado 'Solo Clientes Directos' en el anuncio original","4 estacionamientos, 6 baños completos"],
+    thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/32/57/40/27/32574027_7059102981e7d49c3c475d599d58d94a-b4a1e52",
+    listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/viva-ya-en-santa-maria-venta-luxury-residences-con-linea-blanca-esm/32574027",
+    source:"Encuentra24",
+    lastVerified:"2026-07-14"
   },
   {
     id:CLIENT_PREFIX+"fairway-lands-of-panama",
@@ -284,11 +325,55 @@ const PROPERTIES = [
     price:2400000, beds:3, baths:3.5, parking:8, size_m2:780,
     maintenance:null,
     verdict:"Solid Option",
-    considerations:["Publicada esta semana (actualizada 13/07/2026)","Solo 3 recámaras (vs. 4 en la mayoría de las opciones del grupo) — la más grande en construcción (780 m²) y con más parqueos (8)","Nota: hay otro anuncio casi idéntico de un agente distinto para lo que parece ser la misma casa — se incluyó solo la versión con descripción completa para evitar duplicado"],
+    description:"Casa Full Remodelada en Fairway Estates, publicada por Lands of Panama, actualizada el 13/07/2026. Terreno de 743.93 m² y 779.64 m² de construcción — la más grande del set completo. 3 recámaras con walk-in closet, den interno y externo, sala familiar de doble altura, 2 habitaciones de servicio y estacionamiento para 8 autos. Acabados de mármol travertino y cocina Scavolini.",
+    considerations:["780 m² construidos sobre terreno de 743.93 m² — la construcción más grande del set, $3,077/m²","Solo 3 recámaras (vs. 4 en la mayoría de las opciones); anuncio actualizado el 13/07/2026","8 estacionamientos, el número más alto de toda la lista"],
     thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/32/62/80/50/32628050_e32dfae",
     listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/fairway-estates-santa-maria/32628050",
-    lat:null, lng:null,
-    lastVerified:"2026-07-14", source:"Encuentra24"
+    source:"Encuentra24",
+    lastVerified:"2026-07-14"
+  },
+  {
+    id:CLIENT_PREFIX+"casa-santa-maria-2450",
+    building:"Casa en Santa María — Fairway Estates (807m²)",
+    area:"Santa María, Fairway Estates",
+    price:2450000, beds:4, baths:4, parking:6, size_m2:807,
+    maintenance:null,
+    verdict:"Great Find",
+    description:"Casa en Fairway Estates, inventario propio de Grupo Tribaldos, agente Itzel Alvarado. 807.16 m² de construcción, 4 recámaras, 4 baños, 6 estacionamientos, construida en 2016. Incluye área social amplia, piscina privada, dormitorio y baño de servicio, línea blanca y terraza.",
+    considerations:["807 m² construidos — la segunda construcción más grande del set, $3,036/m² es el más bajo de las 16","Construida en 2016","6 estacionamientos, 4 baños completos"],
+    thumbnail:"https://media.grupotribaldos.com/properties/21c82d2a-bf64-5c07-9d72-69f38b5faedc-isre-listing-image-600x400.jpg",
+    listingUrl:"https://grupotribaldos.com/properties/venta-de-casa-en-santa-maria-fairway-estates",
+    source:"Grupo Tribaldos",
+    agent:"Itzel Alvarado",
+    lastVerified:"2026-07-14"
+  },
+  {
+    id:CLIENT_PREFIX+"vista-al-golf-1203",
+    building:"Vista al Golf — Lote 1,203 m²",
+    area:"Santa María Golf & Country Club",
+    price:2550000, beds:4, baths:4.5, parking:4, size_m2:600,
+    maintenance:null,
+    verdict:"Solid Option",
+    description:"Casa en Vista al Golf con terreno de 1,203 m², por mucho el más grande del set. 600 m² de construcción, 4 recámaras, 4.5 baños, 4 estacionamientos. El anuncio permite personalizar el interior según el comprador.",
+    considerations:["600 m² construidos sobre terreno de 1,203 m² — el terreno más grande del grupo, casi el doble del segundo lugar; $4,250/m² construido","Interior personalizable según el comprador; el anuncio no especifica año de construcción","4 estacionamientos, 4.5 baños"],
+    thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/32/45/51/63/32455163_e6e27b7153300cd471a5ce15ca19afb5-107d79e",
+    listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/santa-maria-vista-al-golf-lote-1-203mts2-2-550-000/32455163",
+    source:"Encuentra24",
+    lastVerified:"2026-07-14"
+  },
+  {
+    id:CLIENT_PREFIX+"fairway-estates-743",
+    building:"Fairway Estates",
+    area:"Santa María Golf & Country Club",
+    price:2600000, beds:4, baths:4.5, parking:6, size_m2:743,
+    maintenance:1,
+    verdict:"Solid Option",
+    description:"Fairway Estates, casa recién remodelada de 743 m² de construcción sobre 890 m² de terreno. 4 recámaras, 4.5 baños, piscina ubicada frente al campo de golf, 6 estacionamientos (3 techados y 3 descubiertos).",
+    considerations:["743 m² construidos sobre terreno de 890 m² — $3,499/m², cerca del promedio del grupo","Recién remodelada; el anuncio no especifica año de construcción original","6 estacionamientos (3 techados y 3 descubiertos), 4.5 baños"],
+    thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/32/19/76/70/32197670_e2d9639",
+    listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/fairway-estates-santa-maria/32197670",
+    source:"Encuentra24",
+    lastVerified:"2026-07-14"
   },
   {
     id:CLIENT_PREFIX+"peninsula-estates",
@@ -297,11 +382,27 @@ const PROPERTIES = [
     price:2605000, beds:4, baths:4.5, parking:4, size_m2:640,
     maintenance:400,
     verdict:"Stretch",
-    considerations:["$105k por encima del presupuesto — pero el vendedor ofrece adecuaciones arquitectónicas y de acabados a la medida, lo que deja margen para negociar precio final","Construcción nueva a estrenar, entrega en 18 meses (no es para mudanza inmediata)","Terreno de 1,000 m²; solo queda 1 unidad disponible"],
+    description:"Peninsula Estates, construcción nueva a estrenar y totalmente personalizable en acabados. 640 m² de construcción sobre terreno de 1,000 m², 4 recámaras, 4.5 baños. Entrega estimada en 18 meses; solo queda 1 unidad disponible.",
+    considerations:["640 m² construidos sobre terreno de 1,000 m² — $4,070/m², de los más altos del set","Construcción nueva a estrenar, entrega estimada en 18 meses; solo 1 unidad disponible","4 estacionamientos, 4.5 baños"],
     thumbnail:"https://photos.encuentra24.com/t_or_fh_m/f_auto/v1/pa/31/16/98/96/31169896_d77704",
-    listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/casa-a-estrenar-peninsula-estates-640m2-2-405-000/31169896",
-    lat:null, lng:null,
-    lastVerified:"2026-07-14", source:"Encuentra24"
+    listingUrl:"https://www.encuentra24.com/panama-es/bienes-raices-venta-de-propiedades-casas/casa-a-estrenar-peninsula-estates-640m2-2-605-000/31169896",
+    source:"Encuentra24",
+    lastVerified:"2026-07-14"
+  },
+  {
+    id:CLIENT_PREFIX+"casa-santa-maria-2900",
+    building:"Casa en Santa María — Fairway Estates (Amplia)",
+    area:"Santa María, Fairway Estates",
+    price:2900000, beds:5, baths:5, parking:5, size_m2:850,
+    maintenance:350,
+    verdict:"Stretch",
+    description:"Casa en Fairway Estates, inventario propio de Grupo Tribaldos, agente Itzel Alvarado. La más grande de todo el set: 850 m² de construcción sobre 1,439.41 m² de terreno. 5 recámaras, 5 baños, 5 estacionamientos, construida en 2018. Incluye piscina, balcones, terraza y área social amplia.",
+    considerations:["850 m² construidos sobre terreno de 1,439.41 m² — la casa y el terreno más grandes de las 16, $3,412/m²","Construida en 2018","5 estacionamientos, 5 baños completos"],
+    thumbnail:"https://media.grupotribaldos.com/properties/7ac7ca45-8668-ac3a-9b8b-69f3884df309-isre-listing-image-600x400.jpg",
+    listingUrl:"https://grupotribaldos.com/properties/venta-de-casa-en-santa-maria-en-fairway-estates",
+    source:"Grupo Tribaldos",
+    agent:"Itzel Alvarado",
+    lastVerified:"2026-07-14"
   }
 ];
 
@@ -361,6 +462,12 @@ async function toggleFav(id){
   }catch(e){ console.warn("No se pudo guardar el favorito en la nube:", e); }
 }
 
+function toggleDesc(btn){
+  const desc = btn.previousElementSibling;
+  const clamped = desc.classList.toggle("clamped");
+  btn.textContent = clamped ? "Ver más ›" : "Ver menos";
+}
+
 const verdictClass = { "Great Find":"v-great", "Solid Option":"v-solid", "Fair":"v-fair", "Stretch":"v-stretch" };
 function fmtMoney(n){ return "$"+n.toLocaleString("en-US"); }
 
@@ -386,40 +493,81 @@ function cardHtml(p){
         <span><b>${p.parking ?? 'Consultar'}</b> parqueos</span>
         <span><b>${p.size_m2}</b> m²</span>
       </div>
+      <div>
+        <p class="desc clamped">${p.description}</p>
+        <button class="desc-toggle" onclick="toggleDesc(this)">Ver más ›</button>
+      </div>
       ${p.considerations && p.considerations.length ? `
       <div class="considerations">
         <b>A tener en cuenta</b>
         <ul>${p.considerations.map(c=>`<li>${c}</li>`).join("")}</ul>
       </div>` : ""}
+      ${p.agent === "Isabella Tribaldos" ? `<div class="agent-badge">Contacto: Isabella Tribaldos</div>` : ""}
       ${p.maintenance ? `<div class="maint">Mantenimiento: $${p.maintenance}/mes</div>` : ""}
       <div class="card-foot">
-        <a href="${p.listingUrl}" target="_blank" rel="noopener">Ver anuncio original ↗</a>
+        <a class="ref-badge" href="${p.listingUrl}" target="_blank" rel="noopener">Ref: ${p.id.replace(CLIENT_PREFIX,"")}</a>
         <span class="updated">verificado ${p.lastVerified}</span>
       </div>
     </div>
   </div>`;
 }
 
+function populateSelectOptions(){
+  const areas = [...new Set(PROPERTIES.map(p=>p.area))].sort();
+  const areaSel = document.getElementById("f-area");
+  areas.forEach(a=>{
+    const opt = document.createElement("option");
+    opt.value = a; opt.textContent = a;
+    areaSel.appendChild(opt);
+  });
+  const buildings = [...new Set(PROPERTIES.map(p=>p.building))].sort();
+  const buildSel = document.getElementById("f-building");
+  buildings.forEach(b=>{
+    const opt = document.createElement("option");
+    opt.value = b; opt.textContent = b;
+    buildSel.appendChild(opt);
+  });
+}
+
 function currentFilters(){
   return {
+    search: document.getElementById("f-search").value.trim().toLowerCase(),
+    area: document.getElementById("f-area").value,
     price: document.getElementById("f-price").value,
-    size: document.getElementById("f-size").value,
-    parking: document.getElementById("f-parking").value
+    beds: document.getElementById("f-beds").value,
+    verdict: document.getElementById("f-verdict").value,
+    building: document.getElementById("f-building").value,
+    show: document.getElementById("f-show").value,
+    sort: document.getElementById("f-sort").value
   };
 }
 
 function render(){
   const f = currentFilters();
   let list = PROPERTIES.filter(p=>{
+    if(f.search){
+      const hay = (p.building+" "+p.area+" "+p.description).toLowerCase();
+      if(!hay.includes(f.search)) return false;
+    }
+    if(f.area && p.area !== f.area) return false;
+    if(f.building && p.building !== f.building) return false;
+    if(f.verdict && p.verdict !== f.verdict) return false;
+    if(f.beds){
+      if(f.beds === "5"){ if(p.beds < 5) return false; }
+      else if(p.beds < Number(f.beds)) return false;
+    }
     if(f.price){
       const [lo,hi] = f.price.split("-").map(Number);
       if(p.price<lo || p.price>hi) return false;
     }
-    if(f.size && p.size_m2 < Number(f.size)) return false;
-    if(f.parking && (p.parking||0) < Number(f.parking)) return false;
+    if(f.show === "loved" && !(voteCounts[p.id] > 0)) return false;
     return true;
   });
-  list.sort((a,b)=> a.price - b.price);
+
+  if(f.sort === "price-asc") list.sort((a,b)=>a.price-b.price);
+  else if(f.sort === "price-desc") list.sort((a,b)=>b.price-a.price);
+  else if(f.sort === "size-desc") list.sort((a,b)=>b.size_m2-a.size_m2);
+  else if(f.sort === "name-asc") list.sort((a,b)=>a.building.localeCompare(b.building));
 
   const grid = document.getElementById("grid");
   const empty = document.getElementById("empty");
@@ -434,15 +582,23 @@ function render(){
   `;
 }
 
-document.querySelectorAll("#f-price,#f-size,#f-parking").forEach(el=>el.addEventListener("change", render));
+document.querySelectorAll("#f-search,#f-area,#f-price,#f-beds,#f-verdict,#f-building,#f-show,#f-sort").forEach(el=>{
+  el.addEventListener(el.tagName==="INPUT" ? "input" : "change", render);
+});
 document.getElementById("clear").addEventListener("click", ()=>{
+  document.getElementById("f-search").value="";
+  document.getElementById("f-area").value="";
   document.getElementById("f-price").value="";
-  document.getElementById("f-size").value="";
-  document.getElementById("f-parking").value="";
+  document.getElementById("f-beds").value="";
+  document.getElementById("f-verdict").value="";
+  document.getElementById("f-building").value="";
+  document.getElementById("f-show").value="all";
+  document.getElementById("f-sort").value="price-asc";
   render();
 });
 
 (async function init(){
+  populateSelectOptions();
   await loadFavorites();
   render();
 })();
